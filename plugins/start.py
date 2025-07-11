@@ -12,7 +12,9 @@ async def start_command(client: Client, message: Message):
     """Handle /start command"""
     try:
         logger.info(f"Received /start command from user {message.from_user.id}")
-    
+
+        if not db._connected:
+            await db.connect()
             
         user_id = message.from_user.id
         username = message.from_user.username
