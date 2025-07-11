@@ -27,9 +27,6 @@ def admin_only(func):
 async def broadcast_command(client: Client, message: Message):
     """Handle /broadcast command"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
         if len(message.command) < 2:
             await message.reply_text(
                 "❌ **ɪɴᴠᴀʟɪᴅ ᴜsᴀɢᴇ**\n\n"
@@ -121,9 +118,6 @@ async def broadcast_cancel(client: Client, callback_query):
 async def ban_command(client: Client, message: Message):
     """Handle /ban command"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
         if len(message.command) < 2:
             await message.reply_text(
                 "❌ **ɪɴᴠᴀʟɪᴅ ᴜsᴀɢᴇ**\n\n"
@@ -224,9 +218,6 @@ async def unban_command(client: Client, message: Message):
 async def addpremium_command(client: Client, message: Message):
     """Handle /addpremium command"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
         if len(message.command) < 3:
             await message.reply_text(
                 "❌ **ɪɴᴠᴀʟɪᴅ ᴜsᴀɢᴇ**\n\n"
@@ -313,10 +304,6 @@ async def createcode_command(client: Client, message: Message):
         # Generate random code
         code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         # Create code in database
         await db.create_premium_code(code, days, message.from_user.id)
         
@@ -349,9 +336,6 @@ async def createcode_command(client: Client, message: Message):
 async def status_command(client: Client, message: Message):
     """Handle /status command"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
         # Get user stats
         stats = await db.get_user_stats()
         
@@ -397,9 +381,6 @@ async def status_command(client: Client, message: Message):
 async def logs_command(client: Client, message: Message):
     """Handle /logs command"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
         # Get recent operations
         recent_ops = await db.operations.find({}).sort("date", -1).limit(10).to_list(None)
         

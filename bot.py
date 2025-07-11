@@ -101,9 +101,6 @@ class TelegramBot(Client):
 
     async def _send_startup_broadcast(self):
         try:
-            if not self.db._connected:
-                await self.db.connect()
-
             users_cursor = self.db.users.find({}, {"_id": 1})
             user_count = 0
             success_count = 0

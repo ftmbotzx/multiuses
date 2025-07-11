@@ -8,6 +8,10 @@ This is a comprehensive Telegram bot for video processing operations built with 
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+• **Database Connection Optimization (July 11, 2025)**: Removed redundant database connection checks from all command handlers. The database is now connected once at bot startup, eliminating the need for individual connection verification before each database operation. This improves performance and reduces code complexity.
+
 ## System Architecture
 
 The bot follows a modular plugin-based architecture with clear separation of concerns:

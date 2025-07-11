@@ -12,10 +12,6 @@ db = Database()
 async def premium_command(client: Client, message: Message):
     """Handle /premium command"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         user_id = message.from_user.id
         
         # Get user

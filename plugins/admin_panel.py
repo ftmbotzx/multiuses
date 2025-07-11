@@ -26,10 +26,6 @@ def admin_only(func):
 async def admin_panel(client: Client, message: Message):
     """Main admin panel"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         # Get quick stats
         total_users = await db.users.count_documents({}) if db.users is not None else 0
         active_users = await db.users.count_documents({"last_activity": {"$gte": datetime.now() - timedelta(days=7)}}) if db.users is not None else 0
@@ -86,10 +82,6 @@ async def admin_users_panel(client: Client, callback_query: CallbackQuery):
             await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
             return
             
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         # Get user stats
         total_users = await db.users.count_documents({}) if db.users is not None else 0
         banned_users = await db.users.count_documents({"banned": True}) if db.users is not None else 0
@@ -140,10 +132,6 @@ async def admin_premium_panel(client: Client, callback_query: CallbackQuery):
             await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
             return
             
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         # Get premium stats
         premium_users = await db.users.count_documents({"premium_until": {"$gt": datetime.now()}}) if db.users is not None else 0
         expired_premium = await db.users.count_documents({
@@ -193,10 +181,6 @@ async def admin_stats_panel(client: Client, callback_query: CallbackQuery):
         if callback_query.from_user.id not in Config.ADMINS:
             await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
             return
-            
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
             
         # Get comprehensive stats
         total_users = await db.users.count_documents({}) if db.users is not None else 0
@@ -506,10 +490,6 @@ async def admin_create_backup(client: Client, callback_query: CallbackQuery):
             
         await callback_query.answer("🔄 ᴄʀᴇᴀᴛɪɴɢ ʙᴀᴄᴋᴜᴘ...")
         
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         # Create backup
         backup_data = {
             "timestamp": datetime.now().isoformat(),
@@ -591,10 +571,6 @@ async def admin_recent_users(client: Client, callback_query: CallbackQuery):
         if callback_query.from_user.id not in Config.ADMINS:
             await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
             return
-            
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
             
         # Get recent users
         recent_users = await db.users.find({}).sort("joined_date", -1).limit(10).to_list(None) if db.users is not None else []
@@ -695,10 +671,6 @@ async def admin_user_stats(client: Client, callback_query: CallbackQuery):
             await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
             return
             
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         # Get detailed user stats
         total_users = await db.users.count_documents({}) if db.users is not None else 0
         active_users = await db.users.count_documents({
@@ -782,10 +754,6 @@ async def admin_premium_users(client: Client, callback_query: CallbackQuery):
             await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
             return
             
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         # Get premium users
         premium_users = await db.users.find({"premium_until": {"$gt": datetime.now()}}).sort("premium_until", -1).limit(10).to_list(None) if db.users is not None else []
         
@@ -821,10 +789,6 @@ async def admin_active_codes(client: Client, callback_query: CallbackQuery):
         if callback_query.from_user.id not in Config.ADMINS:
             await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
             return
-            
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
             
         # Get active codes
         active_codes = await db.premium_codes.find({"used": False}).sort("created_date", -1).limit(10).to_list(None) if db.premium_codes is not None else []

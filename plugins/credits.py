@@ -11,10 +11,6 @@ db = Database()
 async def credits_command(client: Client, message: Message):
     """Handle /credits command"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         user_id = message.from_user.id
         
         # Get user
@@ -95,10 +91,6 @@ async def earn_credits_command(client: Client, message: Message):
 async def check_credits_callback(client: Client, callback_query: CallbackQuery):
     """Handle check credits callback"""
     try:
-        # Ensure database is connected
-        if not db._connected:
-            await db.connect()
-            
         user_id = callback_query.from_user.id
         
         # Get user
