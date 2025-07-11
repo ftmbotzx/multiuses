@@ -1703,22 +1703,28 @@ async def start_processing_with_params(client: Client, message: Message, video_m
         ffmpeg_processor = FFmpegProcessor()
         
         if operation.startswith("watermark_text:"):
-            # Text watermark
+            # Text watermark - extract text from operation string
+            text = operation.split(":", 1)[1] if ":" in operation else "ꜰᴛᴍ ᴅᴇᴠᴇʟᴏᴘᴇʀᴢ"
             watermark_processor = WatermarkProcessor()
             output_path = await watermark_processor.add_text_watermark(
                 video_path,
                 f"{Config.UPLOADS_DIR}/{process_id}_watermark_text.mp4",
-                params["text"],
+                text,
                 large_colorful=True
             )
         elif operation.startswith("watermark_image:"):
-            # Image watermark  
-            watermark_processor = WatermarkProcessor()
-            output_path = await watermark_processor.add_image_watermark(
-                video_path,
-                f"{Config.UPLOADS_DIR}/{process_id}_watermark_image.mp4",
-                params["image_path"]
-            )
+            # Image watermark - extract image path from operation string
+            image_path = operation.split(":", 1)[1] if ":" in operation else None
+            if image_path and os.path.exists(image_path):
+                watermark_processor = WatermarkProcessor()
+                output_path = await watermark_processor.add_image_watermark(
+                    video_path,
+                    f"{Config.UPLOADS_DIR}/{process_id}_watermark_image.mp4",
+                    image_path
+                )
+            else:
+                logger.error(f"Image watermark path not found: {image_path}")
+                output_path = None
         elif operation == "watermark":
             # Handle generic watermark operation with params
             watermark_processor = WatermarkProcessor()
@@ -1946,7 +1952,12 @@ async def start_watermark_processing(client: Client, reply_message: Message, vid
         
         # Check user privileges
         user = await db.get_user(user_id)
-        if not await should_bypass_limits(user_id, db):
+        # Check if user is premium or admin
+        is_premium = await db.is_user_premium(user_id)
+        is_admin = user_id in Config.ADMINS
+        bypass_limits = is_premium or is_admin
+        
+        if not bypass_limits:
             if not user:
                 await reply_message.reply_text("❌ User not found. Please use /start first.")
                 return
@@ -1971,13 +1982,13 @@ async def start_watermark_processing(client: Client, reply_message: Message, vid
         # Create operation record
         operation_id = await db.add_operation(user_id, f"watermark_{watermark_type}")
         
-        # Start processing using task manager
-        task_manager = TaskManager()
-        await task_manager.start_task(
-            user_id=user_id,
-            task_name=f"watermark_{watermark_type}",
-            coroutine=process_video(client, reply_message, video_message, operation, operation_id),
-            task_data={"operation": operation, "operation_id": str(operation_id)}
+        # Start processing using start_processing_with_params
+        await start_processing_with_params(
+            client, 
+            reply_message, 
+            video_message, 
+            operation, 
+            {}
         )
         
     except Exception as e:
@@ -2010,13 +2021,13 @@ async def start_trim_processing(client: Client, reply_message: Message, video_me
         # Create operation record
         operation_id = await db.add_operation(user_id, "trim_custom")
         
-        # Start processing using task manager
-        task_manager = TaskManager()
-        await task_manager.start_task(
-            user_id=user_id,
-            task_name="trim_custom",
-            coroutine=process_video(client, reply_message, video_message, f"trim_{duration}", operation_id),
-            task_data={"operation": f"trim_{duration}", "operation_id": str(operation_id)}
+        # Start processing using start_processing_with_params
+        await start_processing_with_params(
+            client, 
+            reply_message, 
+            video_message, 
+            f"trim_{duration}", 
+            {}
         )
         
     except Exception as e:
