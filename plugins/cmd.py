@@ -19,10 +19,10 @@ async def git_pull(client, message):
     if message.from_user.id not in Config.ADMINS:
         return await message.reply_text("🚫 **You are not authorized to use this command!**")
       
-    working_directory = "/home/ubuntu/multiuses"
+    working_directory = "/home/ubuntu/TESTREPO"
 
     process = subprocess.Popen(
-        "git pull https://github.com/Anshvachhani998/multiuses",
+        "git pull https://github.com/ftmbotzx/TESTREPO",
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
@@ -52,7 +52,7 @@ async def git_pull(client, message):
         await message.reply_text(f"📦 Git Pull Output:\n```\n{output}\n```")
         await message.reply_text("🔄 Git Pull successful!\n♻ Restarting bot...")
 
-        subprocess.Popen("bash /home/ubuntu/multiuses/start.sh", shell=True)
+        subprocess.Popen("bash /home/ubuntu/TESTREPO/start.sh", shell=True)
         os._exit(0)
 
     await message.reply_text(f"📦 Git Pull Output:\n```\n{output}\n```")
