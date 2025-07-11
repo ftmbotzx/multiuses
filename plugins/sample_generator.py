@@ -3,8 +3,8 @@ import uuid
 import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
-from config import Config
-from db import Database
+from info import Config
+from database.db import Database
 from helpers.ffmpeg import FFmpegProcessor
 from helpers.downloader import FileCleanup
 import logging

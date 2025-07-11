@@ -4,8 +4,8 @@ import json
 import time
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
-from db import Database
-from config import Config
+from database.db import Database
+from info import Config
 from helpers.ffmpeg import FFmpegProcessor
 from helpers.downloader import Aria2Downloader, FileCleanup
 from helpers.watermark import WatermarkProcessor
