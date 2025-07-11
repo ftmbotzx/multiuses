@@ -63,11 +63,33 @@ class TelegramBot(Client):
         await self._send_startup_broadcast()
 
         # Start web server (Render/Heroku compatibility)
-        runner = web.AppRunner(await web_server())
-        await runner.setup()
-        site = web.TCPSite(runner, "0.0.0.0", PORT)
-        await site.start()
-        logger.info(f"🌐 Web Server Running on PORT {PORT}")
+        try:
+            app = await web_server()
+            runner = web.AppRunner(app)
+            await runner.setup()
+            site = web.TCPSite(runner, "0.0.0.0", PORT)
+            await site.start()
+            logger.info(f"🌐 Web Server Running on 0.0.0.0:{PORT}")
+            
+            # Small delay to ensure server is fully up
+            await asyncio.sleep(1)
+            
+            # Test server accessibility
+            import aiohttp
+            async with aiohttp.ClientSession() as session:
+                try:
+                    async with session.get(f"http://localhost:{PORT}/health") as resp:
+                        if resp.status == 200:
+                            logger.info("✅ Web server health check passed")
+                        else:
+                            logger.warning(f"⚠️ Web server health check failed: {resp.status}")
+                except Exception as e:
+                    logger.error(f"❌ Web server health check error: {e}")
+                    
+        except Exception as e:
+            logger.error(f"Failed to start web server: {e}")
+            # Continue without web server if it fails
+            pass
 
         # Start scheduler
         self.scheduler.start()

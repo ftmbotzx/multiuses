@@ -7,12 +7,32 @@ class Database:
     def __init__(self):
         self.client = motor.motor_asyncio.AsyncIOMotorClient(Config.MONGO_URI)
         self.db = self.client[Config.MONGO_NAME]
+        self._connected = False
 
         # Collections
         self.users = self.db["users"]
         self.operations = self.db["operations"]
         self.premium_codes = self.db["premium_codes"]
         self.referrals = self.db["referrals"]
+
+    async def connect(self):
+        """Connect to the database and create indexes"""
+        try:
+            # Test connection
+            await self.client.admin.command('ping')
+            self._connected = True
+            # Create indexes
+            await self.create_indexes()
+            print("Database connected successfully")
+        except Exception as e:
+            print(f"Database connection failed: {e}")
+            self._connected = False
+
+    async def close(self):
+        """Close database connection"""
+        if hasattr(self, 'client'):
+            self.client.close()
+            self._connected = False
 
     async def create_indexes(self):
         await self.users.create_index("user_id", unique=True)
