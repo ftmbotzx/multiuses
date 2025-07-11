@@ -5,7 +5,7 @@ from pyrogram.types import Message
 from typing import Optional, Dict, Any
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__) 
 
 class ProgressTracker:
     def __init__(self, client: Client):
