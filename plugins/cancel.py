@@ -1,6 +1,5 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from plugins.video_handler import watermark_requests, merge_collections, screenshot_requests, trim_requests
 import logging
 
 logger = logging.getLogger(__name__)
@@ -10,6 +9,12 @@ async def cancel_command(client: Client, message: Message):
     """Handle /cancel command"""
     try:
         user_id = message.from_user.id
+        
+        # Import request storages from separated modules
+        from plugins.watermark_handler import watermark_requests
+        from plugins.video_upload import merge_collections
+        from plugins.custom_callbacks import screenshot_requests, trim_requests
+        from plugins.file_uploads import audio_replace_requests, subtitle_requests
         
         # Check if user has pending watermark request
         if user_id in watermark_requests:
@@ -47,6 +52,24 @@ async def cancel_command(client: Client, message: Message):
             await message.reply_text(
                 f"❌ **ᴄᴀɴᴄᴇʟʟᴇᴅ**\n\n"
                 f"ʏᴏᴜʀ {request_type.replace('_', ' ')} ᴛʀɪᴍ ʀᴇǫᴜᴇsᴛ ʜᴀs ʙᴇᴇɴ ᴄᴀɴᴄᴇʟʟᴇᴅ."
+            )
+            return
+        
+        # Check if user has pending audio replacement request
+        if user_id in audio_replace_requests:
+            del audio_replace_requests[user_id]
+            await message.reply_text(
+                f"❌ **ᴄᴀɴᴄᴇʟʟᴇᴅ**\n\n"
+                f"ʏᴏᴜʀ ᴀᴜᴅɪᴏ ʀᴇᴘʟᴀᴄᴇᴍᴇɴᴛ ʀᴇǫᴜᴇsᴛ ʜᴀs ʙᴇᴇɴ ᴄᴀɴᴄᴇʟʟᴇᴅ."
+            )
+            return
+        
+        # Check if user has pending subtitle request
+        if user_id in subtitle_requests:
+            del subtitle_requests[user_id]
+            await message.reply_text(
+                f"❌ **ᴄᴀɴᴄᴇʟʟᴇᴅ**\n\n"
+                f"ʏᴏᴜʀ sᴜʙᴛɪᴛʟᴇ ʀᴇǫᴜᴇsᴛ ʜᴀs ʙᴇᴇɴ ᴄᴀɴᴄᴇʟʟᴇᴅ."
             )
             return
         
