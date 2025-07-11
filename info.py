@@ -5,7 +5,7 @@ class Config:
     SESSION = "shhsa"
     API_ID = int(os.getenv("API_ID") or "22141398")
     API_HASH = os.getenv("API_HASH") or "0c8f8bd171e05e42d6f6e5a6f4305389"
-    BOT_TOKEN = os.getenv("BOT_TOKEN") or "7575260816:AAEhUnDLdUMvLami2715wZ1qPGT56SxvLQ8"
+    BOT_TOKEN = os.getenv("BOT_TOKEN") or "7575260816:AAF5tFxQMMZSP1BDIetM9apu0tdGP_ix-eQ"
 
     # Database Configuration
     MONGO_URI = os.getenv("MONGO_URI") or "mongodb+srv://Ansh089:Ansh089@cluster0.y8tpouc.mongodb.net/?retryWrites=true&w=majority"
