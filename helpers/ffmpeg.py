@@ -574,35 +574,26 @@ class FFmpegProcessor:
             return None
     
     async def replace_audio(self, input_path: str, output_path: str, progress_tracker=None, params=None) -> Optional[str]:
-        """Replace audio with new audio file or silence"""
+        """Replace audio with new audio file"""
         try:
             audio_file = params.get("audio_file") if params else None
             
-            if audio_file and os.path.exists(audio_file):
-                # Replace with new audio file
-                cmd = [
-                    self.ffmpeg_path,
-                    '-i', input_path,
-                    '-i', audio_file,
-                    '-c:v', 'copy',
-                    '-c:a', 'aac',
-                    '-map', '0:v:0',
-                    '-map', '1:a:0',
-                    '-shortest',
-                    '-y', output_path
-                ]
-            else:
-                # Replace with silence (mute)
-                cmd = [
-                    self.ffmpeg_path,
-                    '-i', input_path,
-                    '-f', 'lavfi',
-                    '-i', 'anullsrc=channel_layout=stereo:sample_rate=44100',
-                    '-c:v', 'copy',
-                    '-c:a', 'aac',
-                    '-shortest',
-                    '-y', output_path
-                ]
+            if not audio_file or not os.path.exists(audio_file):
+                logger.error("No valid audio file provided for replacement")
+                return None
+                
+            # Replace with new audio file
+            cmd = [
+                self.ffmpeg_path,
+                '-i', input_path,
+                '-i', audio_file,
+                '-c:v', 'copy',
+                '-c:a', 'aac',
+                '-map', '0:v:0',
+                '-map', '1:a:0',
+                '-shortest',
+                '-y', output_path
+            ]
             
             logger.info(f"Replacing audio: {input_path} -> {output_path}")
             success = await self._run_ffmpeg_command(cmd, progress_tracker)

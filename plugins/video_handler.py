@@ -537,24 +537,22 @@ async def show_subtitles_options(client: Client, callback_query: CallbackQuery, 
     await callback_query.edit_message_text(text, reply_markup=keyboard)
 
 async def show_replace_audio_options(client: Client, callback_query: CallbackQuery, video_message: Message):
-    """Show replace audio options"""
-    keyboard = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("🎵 ᴜᴘʟᴏᴀᴅ ɴᴇᴡ ᴀᴜᴅɪᴏ", callback_data=f"replace_audio_upload_{video_message.id}"),
-            InlineKeyboardButton("🔇 ʀᴇᴍᴏᴠᴇ ᴀᴜᴅɪᴏ", callback_data=f"process_replace_audio_silence_{video_message.id}")
-        ],
-        [
-            InlineKeyboardButton("◀️ ʙᴀᴄᴋ", callback_data=f"back_to_options_{video_message.id}")
-        ]
-    ])
-
-    text = f"🎵 **ʀᴇᴘʟᴀᴄᴇ ᴀᴜᴅɪᴏ**\n\n"
-    text += f"**ᴄᴜʀʀᴇɴᴛ ᴠɪᴅᴇᴏ:** {video_message.video.duration // 60}:{video_message.video.duration % 60:02d}\n\n"
-    text += f"ᴄʜᴏᴏsᴇ ʏᴏᴜʀ ᴏᴘᴛɪᴏɴ:\n\n"
-    text += f"• **ᴜᴘʟᴏᴀᴅ ɴᴇᴡ ᴀᴜᴅɪᴏ**: ʀᴇᴘʟᴀᴄᴇ ᴡɪᴛʜ ʏᴏᴜʀ ᴏᴡɴ ᴀᴜᴅɪᴏ ꜰɪʟᴇ\n"
-    text += f"• **ʀᴇᴍᴏᴠᴇ ᴀᴜᴅɪᴏ**: ᴍᴜᴛᴇ ᴛʜᴇ ᴠɪᴅᴇᴏ ᴄᴏᴍᴘʟᴇᴛᴇʟʏ"
-
-    await callback_query.edit_message_text(text, reply_markup=keyboard)
+    """Show replace audio options - direct to upload"""
+    # Store request for audio upload directly
+    user_id = callback_query.from_user.id
+    audio_replace_requests[user_id] = {
+        "video_message": video_message,
+        "user_id": user_id,
+        "message_id": video_message.id
+    }
+    
+    # Show upload instruction directly without options menu
+    await callback_query.edit_message_text(
+        "🎵 **Upload New Audio**\n\n"
+        "Please send the audio file you want to replace the video audio with:\n\n"
+        "**Supported formats:** MP3, M4A, WAV, FLAC\n\n"
+        "Use /cancel to cancel."
+    )
 
 async def start_processing(client: Client, callback_query: CallbackQuery, video_message: Message, operation: str):
     """Start the actual processing"""
