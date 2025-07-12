@@ -135,7 +135,12 @@ class Database:
         return False
 
     async def get_referral_stats(self, user_id: int):
-        return await self.referrals.count_documents({"referrer_id": user_id})
+        count = await self.referrals.count_documents({"referrer_id": user_id})
+        earnings = count * Config.REFERRAL_BONUS
+        return {
+            "count": count,
+            "earnings": earnings
+        }
 
     async def add_operation(self, user_id: int, operation_type: str, status: str = "pending"):
         return await self.operations.insert_one({

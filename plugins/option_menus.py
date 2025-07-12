@@ -105,7 +105,7 @@ async def show_watermark_options(client, callback_query: CallbackQuery, video_me
             InlineKeyboardButton("🖼️ ɪᴍᴀɢᴇ ᴡᴀᴛᴇʀᴍᴀʀᴋ", callback_data=f"watermark_image_{video_message.id}")
         ],
         [
-            InlineKeyboardButton("🏷️ ʟᴏɢᴏ ᴡᴀᴛᴇʀᴍᴀʀᴋ", callback_data=f"process_watermark_logo_{video_message.id}"),
+            InlineKeyboardButton("🧹 ʀᴇᴍᴏᴠᴇ ᴡᴀᴛᴇʀᴍᴀʀᴋ", callback_data=f"process_watermark_remove_{video_message.id}"),
             InlineKeyboardButton("⏰ ᴛɪᴍᴇsᴛᴀᴍᴘ", callback_data=f"process_watermark_timestamp_{video_message.id}")
         ],
         [

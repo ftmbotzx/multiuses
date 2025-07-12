@@ -45,6 +45,11 @@ class FFmpegProcessor:
                 return await self.take_screenshot(input_path, output_path, progress_tracker, params)
             elif base_operation == "watermark":
                 return await self.add_watermark(input_path, output_path, progress_tracker, params)
+            elif operation == "watermark_remove":
+                # Use watermark processor for remove operation
+                from helpers.watermark import WatermarkProcessor
+                watermark = WatermarkProcessor()
+                return await watermark.remove_watermark(input_path, output_path, 10, 10, 200, 100, progress_tracker)
             elif base_operation == "resolution":
                 return await self.change_resolution(input_path, output_path, progress_tracker, params)
             elif base_operation == "replace_audio":
