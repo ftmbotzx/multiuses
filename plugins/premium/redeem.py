@@ -1,11 +1,45 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, Message
 from database.db import Database
 from info import Config
 import logging
 
 logger = logging.getLogger(__name__)
 db = Database()
+
+@Client.on_message(filters.command("redeem") & filters.private)
+async def redeem_command(client: Client, message: Message):
+    """Handle /redeem command"""
+    try:
+        if len(message.command) < 2:
+            await message.reply_text(
+                "❌ **ɪɴᴠᴀʟɪᴅ ᴜsᴀɢᴇ**\n\n"
+                "**ᴜsᴀɢᴇ:** `/redeem <code>`\n"
+                "**ᴇxᴀᴍᴘʟᴇ:** `/redeem PREMIUM30`"
+            )
+            return
+        
+        code = message.command[1].upper()
+        user_id = message.from_user.id
+        
+        # Try to redeem the code
+        result = await db.redeem_premium_code(code, user_id)
+        
+        if result:
+            await message.reply_text(
+                f"🎉 **ᴄᴏᴅᴇ ʀᴇᴅᴇᴇᴍᴇᴅ sᴜᴄᴄᴇssꜰᴜʟʟʏ!**\n\n"
+                f"ʏᴏᴜʀ ᴀᴄᴄᴏᴜɴᴛ ʜᴀs ʙᴇᴇɴ ᴜᴘɢʀᴀᴅᴇᴅ.\n"
+                f"ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴘʟᴀɴ ᴡɪᴛʜ `/myplan`"
+            )
+        else:
+            await message.reply_text(
+                "❌ **ɪɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ᴄᴏᴅᴇ**\n\n"
+                "ᴘʟᴇᴀsᴇ ᴄʜᴇᴄᴋ ᴛʜᴇ ᴄᴏᴅᴇ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
+            )
+            
+    except Exception as e:
+        logger.error(f"Error in redeem command: {e}")
+        await message.reply_text("❌ ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀʀᴇᴅ. ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ.")
 
 @Client.on_callback_query(filters.regex("^redeem_code$"))
 async def redeem_code_callback(client: Client, callback_query: CallbackQuery):
