@@ -4,7 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-@Client.on_message(filters.text & filters.private & ~filters.command(["start", "help", "cancel", "credits", "referral", "premium", "sample", "admin", "myplan", "redeem", "refer", "refstats", "earncredits", "setthumbnail", "deletethumbnail", "showthumbnail", "broadcast", "ban", "unban", "addpremium", "createcode", "status", "logs", "dbbackup", "restart", "searchuser"]))
+@Client.on_message(filters.text & filters.private & ~filters.command(["start", "help", "cancel", "credits", "referral", "premium", "sample", "admin", "myplan", "redeem", "refer", "refstats", "earncredits", "setthumbnail", "deletethumbnail", "showthumbnail", "broadcast", "ban", "unban", "addpremium", "createcode", "status", "logs", "dbbackup", "restart", "searchuser", "managebot"]))
 async def handle_text_input(client: Client, message: Message):
     """Handle text input for various operations"""
     try:

@@ -46,12 +46,18 @@ async def start_watermark_processing(client: Client, reply_message: Message, vid
         
         # Start processing using start_processing_with_params
         from plugins.video_processing import start_processing_with_params
+        params = {}
+        if watermark_type == "text":
+            params = {"watermark_text": watermark_data}
+        elif watermark_type == "image":
+            params = {"watermark_image_path": watermark_data}
+            
         await start_processing_with_params(
             client, 
             reply_message, 
             video_message, 
             operation, 
-            {}
+            params
         )
         
     except Exception as e:
