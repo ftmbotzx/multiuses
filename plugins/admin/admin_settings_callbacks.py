@@ -41,13 +41,13 @@ async def admin_credit_settings_callback(client: Client, callback_query: Callbac
 • REFERRAL_BONUS={Config.REFERRAL_BONUS}
 • DAILY_LIMIT={Config.DAILY_LIMIT}
 """
-        
+
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("◀️ ʙᴀᴄᴋ", callback_data="admin_settings")]
         ])
-        
+
         await callback_query.edit_message_text(text, reply_markup=keyboard)
-        
+
     except Exception as e:
         logger.error(f"Error in admin credit settings callback: {e}")
         await callback_query.answer("❌ ᴇʀʀᴏʀ", show_alert=True)
@@ -60,14 +60,14 @@ async def admin_system_info_callback(client: Client, callback_query: CallbackQue
         # Get Python and Pyrogram versions
         import pyrogram
         import sys
-        
+
         if PSUTIL_AVAILABLE:
             # Get system information
             cpu_percent = psutil.cpu_percent(interval=1)
             memory = psutil.virtual_memory()
             disk = psutil.disk_usage('/')
-            
-                text = f"""
+
+            text = f"""
 🔧 **sʏsᴛᴇᴍ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ**
 
 **sʏsᴛᴇᴍ ʀᴇsᴏᴜʀᴄᴇs:**
@@ -86,9 +86,6 @@ async def admin_system_info_callback(client: Client, callback_query: CallbackQue
 • **ᴛᴇᴍᴘ ᴅɪʀ:** {Config.TEMP_DIR}
 
 ⏰ **ᴜᴘᴅᴀᴛᴇᴅ:** {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
-• **ᴛᴇᴍᴘ ᴅɪʀ:** {Config.TEMP_DIR}
-
-⏰ **ᴜᴘᴅᴀᴛᴇᴅ:** {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
 """
         else:
             text = f"""
@@ -108,18 +105,15 @@ async def admin_system_info_callback(client: Client, callback_query: CallbackQue
 • **ᴛᴇᴍᴘ ᴅɪʀ:** {Config.TEMP_DIR}
 
 ⏰ **ᴜᴘᴅᴀᴛᴇᴅ:** {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
-• **ᴛᴇᴍᴘ ᴅɪʀ:** {Config.TEMP_DIR}
-
-⏰ **ᴜᴘᴅᴀᴛᴇᴅ:** {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
 """
-        
+
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("🔄 ʀᴇꜰʀᴇsʜ", callback_data="admin_system_info")],
             [InlineKeyboardButton("◀️ ʙᴀᴄᴋ", callback_data="admin_settings")]
         ])
-        
+
         await callback_query.edit_message_text(text, reply_markup=keyboard)
-        
+
     except Exception as e:
         logger.error(f"Error in admin system info callback: {e}")
         await callback_query.answer("❌ ᴇʀʀᴏʀ", show_alert=True)
@@ -131,12 +125,12 @@ async def admin_cleanup_callback(client: Client, callback_query: CallbackQuery):
     try:
         import glob
         import shutil
-        
+
         # Count files in directories
         downloads_count = len(glob.glob(f"{Config.DOWNLOADS_DIR}/*"))
         uploads_count = len(glob.glob(f"{Config.UPLOADS_DIR}/*"))
         temp_count = len(glob.glob(f"{Config.TEMP_DIR}/*"))
-        
+
         # Calculate sizes
         def get_dir_size(path):
             try:
@@ -149,11 +143,11 @@ async def admin_cleanup_callback(client: Client, callback_query: CallbackQuery):
                 return total_size // 1024**2  # MB
             except:
                 return 0
-        
+
         downloads_size = get_dir_size(Config.DOWNLOADS_DIR)
         uploads_size = get_dir_size(Config.UPLOADS_DIR)
         temp_size = get_dir_size(Config.TEMP_DIR)
-        
+
         text = f"""
 🧹 **ꜰɪʟᴇ ᴄʟᴇᴀɴᴜᴘ**
 
@@ -167,15 +161,15 @@ async def admin_cleanup_callback(client: Client, callback_query: CallbackQuery):
 **ɴᴏᴛᴇ:** ᴀᴜᴛᴏᴍᴀᴛɪᴄ ᴄʟᴇᴀɴᴜᴘ ʀᴜɴs ᴇᴠᴇʀʏ 24 ʜᴏᴜʀs.
 ꜰɪʟᴇs ᴏʟᴅᴇʀ ᴛʜᴀɴ 24 ʜᴏᴜʀs ᴀʀᴇ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ʀᴇᴍᴏᴠᴇᴅ.
 """
-        
+
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("🗑️ ᴄʟᴇᴀɴ ɴᴏᴡ", callback_data="admin_cleanup_now")],
             [InlineKeyboardButton("🔄 ʀᴇꜰʀᴇsʜ", callback_data="admin_cleanup")],
             [InlineKeyboardButton("◀️ ʙᴀᴄᴋ", callback_data="admin_settings")]
         ])
-        
+
         await callback_query.edit_message_text(text, reply_markup=keyboard)
-        
+
     except Exception as e:
         logger.error(f"Error in admin cleanup callback: {e}")
         await callback_query.answer("❌ ᴇʀʀᴏʀ", show_alert=True)
@@ -186,16 +180,16 @@ async def admin_cleanup_now_callback(client: Client, callback_query: CallbackQue
     """Handle admin cleanup now callback"""
     try:
         await callback_query.answer("🧹 sᴛᴀʀᴛɪɴɢ ᴄʟᴇᴀɴᴜᴘ...", show_alert=True)
-        
+
         from helpers.downloader import FileCleanup
-        
+
         # Cleanup files
         downloads_cleaned = FileCleanup.cleanup_directory(Config.DOWNLOADS_DIR, max_age_hours=24)
         uploads_cleaned = FileCleanup.cleanup_directory(Config.UPLOADS_DIR, max_age_hours=24)
         temp_cleaned = FileCleanup.cleanup_directory(Config.TEMP_DIR, max_age_hours=1)
-        
+
         total_cleaned = downloads_cleaned + uploads_cleaned + temp_cleaned
-        
+
         text = f"""
 🧹 **ᴄʟᴇᴀɴᴜᴘ ᴄᴏᴍᴘʟᴇᴛᴇᴅ**
 
@@ -208,14 +202,14 @@ async def admin_cleanup_now_callback(client: Client, callback_query: CallbackQue
 
 ✅ **ᴄʟᴇᴀɴᴜᴘ sᴜᴄᴄᴇssꜰᴜʟ**
 """
-        
+
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("🔄 ʀᴇꜰʀᴇsʜ", callback_data="admin_cleanup")],
             [InlineKeyboardButton("◀️ ʙᴀᴄᴋ", callback_data="admin_settings")]
         ])
-        
+
         await callback_query.edit_message_text(text, reply_markup=keyboard)
-        
+
     except Exception as e:
         logger.error(f"Error in admin cleanup now callback: {e}")
         await callback_query.answer("❌ ᴄʟᴇᴀɴᴜᴘ ꜰᴀɪʟᴇᴅ", show_alert=True)
@@ -240,14 +234,14 @@ async def admin_file_manager_callback(client: Client, callback_query: CallbackQu
 **ɴᴏᴛᴇ:** ꜰɪʟᴇ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ɪs ᴀᴜᴛᴏᴍᴀᴛɪᴄ.
 ᴍᴀɴᴜᴀʟ ɪɴᴛᴇʀᴠᴇɴᴛɪᴏɴ ɪs ʀᴀʀᴇʟʏ ɴᴇᴇᴅᴇᴅ.
 """
-        
+
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("🧹 ᴄʟᴇᴀɴᴜᴘ", callback_data="admin_cleanup")],
             [InlineKeyboardButton("◀️ ʙᴀᴄᴋ", callback_data="admin_settings")]
         ])
-        
+
         await callback_query.edit_message_text(text, reply_markup=keyboard)
-        
+
     except Exception as e:
         logger.error(f"Error in admin file manager callback: {e}")
         await callback_query.answer("❌ ᴇʀʀᴏʀ", show_alert=True)
@@ -272,13 +266,13 @@ async def admin_restart_callback(client: Client, callback_query: CallbackQuery):
 
 ᴜsᴇ ᴏɴʟʏ ᴡʜᴇɴ ɴᴇᴄᴇssᴀʀʏ.
 """
-        
+
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("◀️ ʙᴀᴄᴋ", callback_data="admin_settings")]
         ])
-        
+
         await callback_query.edit_message_text(text, reply_markup=keyboard)
-        
+
     except Exception as e:
         logger.error(f"Error in admin restart callback: {e}")
         await callback_query.answer("❌ ᴇʀʀᴏʀ", show_alert=True)
