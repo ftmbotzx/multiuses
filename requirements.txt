@@ -22,3 +22,4 @@ beautifulsoup4
 selenium==4.29.0
 aiohttp
 requests==2.31.0
+psutil

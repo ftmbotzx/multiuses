@@ -67,7 +67,7 @@ async def admin_system_info_callback(client: Client, callback_query: CallbackQue
             memory = psutil.virtual_memory()
             disk = psutil.disk_usage('/')
             
-            text = f"""
+                text = f"""
 🔧 **sʏsᴛᴇᴍ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ**
 
 **sʏsᴛᴇᴍ ʀᴇsᴏᴜʀᴄᴇs:**
@@ -85,6 +85,9 @@ async def admin_system_info_callback(client: Client, callback_query: CallbackQue
 • **ᴜᴘʟᴏᴀᴅs ᴅɪʀ:** {Config.UPLOADS_DIR}
 • **ᴛᴇᴍᴘ ᴅɪʀ:** {Config.TEMP_DIR}
 
+⏰ **ᴜᴘᴅᴀᴛᴇᴅ:** {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
+• **ᴛᴇᴍᴘ ᴅɪʀ:** {Config.TEMP_DIR}
+
 ⏰ **ᴜᴘᴅᴀᴛᴇᴅ:** {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
 """
         else:
@@ -92,7 +95,7 @@ async def admin_system_info_callback(client: Client, callback_query: CallbackQue
 🔧 **sʏsᴛᴇᴍ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ**
 
 **sʏsᴛᴇᴍ ʀᴇsᴏᴜʀᴄᴇs:**
-• **sᴛᴀᴛᴜs:** ᴘsᴜᴛɪʟ ɴᴏᴛ ᴀᴠᴀɪʟᴀʙʟᴇ
+• **sᴛᴀᴛᴜs:** ᴘsᴜᴛɪʟ ɴᴏᴡ ᴀᴠᴀɪʟᴀʙʟᴇ ✅
 
 **sᴏꜰᴛᴡᴀʀᴇ:**
 • **ᴘʏᴛʜᴏɴ:** {sys.version.split()[0]}
@@ -102,6 +105,9 @@ async def admin_system_info_callback(client: Client, callback_query: CallbackQue
 **ᴄᴏɴꜰɪɢᴜʀᴀᴛɪᴏɴ:**
 • **ᴅᴏᴡɴʟᴏᴀᴅs ᴅɪʀ:** {Config.DOWNLOADS_DIR}
 • **ᴜᴘʟᴏᴀᴅs ᴅɪʀ:** {Config.UPLOADS_DIR}
+• **ᴛᴇᴍᴘ ᴅɪʀ:** {Config.TEMP_DIR}
+
+⏰ **ᴜᴘᴅᴀᴛᴇᴅ:** {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
 • **ᴛᴇᴍᴘ ᴅɪʀ:** {Config.TEMP_DIR}
 
 ⏰ **ᴜᴘᴅᴀᴛᴇᴅ:** {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}

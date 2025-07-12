@@ -96,7 +96,7 @@ async def admin_codes_callback(client: Client, callback_query: CallbackQuery):
 async def admin_security_callback(client: Client, callback_query: CallbackQuery):
     """Handle admin security callback"""
     try:
-        text = """
+        text = f"""
 🔐 **sᴇᴄᴜʀɪᴛʏ sᴇᴛᴛɪɴɢs**
 
 **ᴀᴅᴍɪɴ ᴄᴏɴᴛʀᴏʟs:**
