@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from database.db import Database
 from info import Config
+from .admin_utils import admin_callback_only
 import logging
 from datetime import datetime
 
@@ -9,12 +10,10 @@ logger = logging.getLogger(__name__)
 db = Database()
 
 @Client.on_callback_query(filters.regex("^admin_users$"))
+@admin_callback_only
 async def admin_users_panel(client: Client, callback_query: CallbackQuery):
     """User management panel"""
     try:
-        if callback_query.from_user.id not in Config.ADMINS:
-            await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
-            return
             
         # Get user stats
         total_users = await db.users.count_documents({}) if db.users is not None else 0

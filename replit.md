@@ -12,7 +12,7 @@ Preferred communication style: Simple, everyday language.
 
 • **Complete Video Handler Modularization (July 11, 2025)**: Successfully separated the massive 2034-line video_handler.py file into 15+ focused modules. Each callback function now has its own dedicated file with unique names. Created specialized handlers for video upload, option selection, process confirmation, custom callbacks, file uploads, navigation, watermark processing, text input, merge operations, and screenshot handling. Removed the original video_handler.py file completely, reducing plugin count from 69 to 55 with zero redundancy.
 
-• **Admin Panel Authorization Fix (July 12, 2025)**: Fixed admin panel authorization issues where back buttons and callback handlers were showing "not authorized" messages to admin users. Added centralized admin decorators and ensured all admin callbacks properly check authorization. Created admin utility module for consistent authorization handling.
+• **Admin Panel Performance Optimization (July 12, 2025)**: Fixed admin panel authorization issues and optimized VPS performance by implementing cached admin checks. Added centralized admin utility module with 5-minute caching to reduce repeated authorization overhead. Fixed missing callback handlers and ensured all admin functions work properly with consistent authorization handling. This reduces VPS load significantly while maintaining security.
 
 • **Duplicate Plugin Cleanup (July 12, 2025)**: Removed duplicate standalone files (credits.py, premium.py, referral.py) that existed alongside their organized subdirectory versions. Final clean architecture with 51 plugin files and no redundancy.
 

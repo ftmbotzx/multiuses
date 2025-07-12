@@ -2,31 +2,12 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from database.db import Database
 from info import Config
+from .admin_utils import admin_only, admin_callback_only
 import logging
 from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 db = Database()
-
-def admin_only(func):
-    """Decorator to restrict commands to admins only"""
-    async def wrapper(client: Client, message: Message):
-        user_id = message.from_user.id
-        if user_id not in Config.ADMINS:
-            await message.reply_text("❌ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ.")
-            return
-        return await func(client, message)
-    return wrapper
-
-def admin_callback_only(func):
-    """Decorator to restrict callback queries to admins only"""
-    async def wrapper(client: Client, callback_query: CallbackQuery):
-        user_id = callback_query.from_user.id
-        if user_id not in Config.ADMINS:
-            await callback_query.answer("❌ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ.", show_alert=True)
-            return
-        return await func(client, callback_query)
-    return wrapper
 
 @Client.on_message(filters.command("admin") & filters.private)
 @admin_only
@@ -96,3 +77,49 @@ async def admin_panel_refresh(client: Client, callback_query: CallbackQuery):
     
     mock_message = MockMessage(callback_query)
     await admin_panel(client, mock_message)
+
+# Add missing callback handlers
+@Client.on_callback_query(filters.regex("^admin_codes$"))
+@admin_callback_only
+async def admin_codes_callback(client: Client, callback_query: CallbackQuery):
+    """Handle admin codes callback"""
+    try:
+        # Redirect to premium management
+        from .premium_management import admin_premium_panel
+        await admin_premium_panel(client, callback_query)
+    except Exception as e:
+        logger.error(f"Error in admin codes callback: {e}")
+        await callback_query.answer("❌ ᴇʀʀᴏʀ", show_alert=True)
+
+@Client.on_callback_query(filters.regex("^admin_security$"))
+@admin_callback_only
+async def admin_security_callback(client: Client, callback_query: CallbackQuery):
+    """Handle admin security callback"""
+    try:
+        text = """
+🔐 **sᴇᴄᴜʀɪᴛʏ sᴇᴛᴛɪɴɢs**
+
+**ᴀᴅᴍɪɴ ᴄᴏɴᴛʀᴏʟs:**
+• **ᴀᴅᴍɪɴs:** {len(Config.ADMINS)}
+• **ᴏᴡɴᴇʀ:** {Config.OWNER_ID}
+
+**sᴇᴄᴜʀɪᴛʏ ғᴇᴀᴛᴜʀᴇs:**
+• ᴀᴅᴍɪɴ ᴀᴜᴛʜᴏʀɪᴢᴀᴛɪᴏɴ ᴄʜᴇᴄᴋs
+• ᴜsᴇʀ ʙᴀɴ sʏsᴛᴇᴍ
+• ʀᴀᴛᴇ ʟɪᴍɪᴛɪɴɢ
+• ᴄʀᴇᴅɪᴛ sʏsᴛᴇᴍ
+
+**ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴀᴅᴍɪɴs:**
+"""
+        for admin_id in Config.ADMINS:
+            text += f"• `{admin_id}`\n"
+        
+        keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("◀️ ʙᴀᴄᴋ", callback_data="admin_main")]
+        ])
+        
+        await callback_query.edit_message_text(text, reply_markup=keyboard)
+        
+    except Exception as e:
+        logger.error(f"Error in admin security callback: {e}")
+        await callback_query.answer("❌ ᴇʀʀᴏʀ", show_alert=True)

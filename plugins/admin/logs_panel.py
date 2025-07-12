@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from database.db import Database
 from info import Config
+from .admin_utils import admin_callback_only
 import logging
 from datetime import datetime
 
@@ -9,12 +10,10 @@ logger = logging.getLogger(__name__)
 db = Database()
 
 @Client.on_callback_query(filters.regex("^admin_logs$"))
+@admin_callback_only
 async def admin_logs_panel(client: Client, callback_query: CallbackQuery):
     """Logs panel"""
     try:
-        if callback_query.from_user.id not in Config.ADMINS:
-            await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
-            return
             
         # Get recent operations
         recent_ops = await db.operations.find({}).sort("date", -1).limit(10).to_list(None) if db.operations is not None else []

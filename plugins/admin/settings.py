@@ -2,18 +2,17 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from database.db import Database
 from info import Config
+from .admin_utils import admin_callback_only
 import logging
 
 logger = logging.getLogger(__name__)
 db = Database()
 
 @Client.on_callback_query(filters.regex("^admin_settings$"))
+@admin_callback_only
 async def admin_settings_panel(client: Client, callback_query: CallbackQuery):
     """Settings panel"""
     try:
-        if callback_query.from_user.id not in Config.ADMINS:
-            await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
-            return
             
         text = f"""
 ⚙️ **sʏsᴛᴇᴍ sᴇᴛᴛɪɴɢs**

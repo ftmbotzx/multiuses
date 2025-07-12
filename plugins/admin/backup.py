@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from database.db import Database
 from info import Config
+from .admin_utils import admin_callback_only
 import logging
 import json
 import os
@@ -11,12 +12,10 @@ logger = logging.getLogger(__name__)
 db = Database()
 
 @Client.on_callback_query(filters.regex("^admin_backup$"))
+@admin_callback_only
 async def admin_backup_panel(client: Client, callback_query: CallbackQuery):
     """Backup panel"""
     try:
-        if callback_query.from_user.id not in Config.ADMINS:
-            await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
-            return
             
         text = f"""
 💾 **ᴅᴀᴛᴀʙᴀsᴇ ʙᴀᴄᴋᴜᴘ**
@@ -53,12 +52,10 @@ async def admin_backup_panel(client: Client, callback_query: CallbackQuery):
         await callback_query.answer("❌ ᴇʀʀᴏʀ", show_alert=True)
 
 @Client.on_callback_query(filters.regex("^admin_create_backup$"))
+@admin_callback_only
 async def admin_create_backup_callback(client: Client, callback_query: CallbackQuery):
     """Create database backup"""
     try:
-        if callback_query.from_user.id not in Config.ADMINS:
-            await callback_query.answer("❌ ᴜɴᴀᴜᴛʜᴏʀɪᴢᴇᴅ", show_alert=True)
-            return
             
         await callback_query.answer("🔄 ᴄʀᴇᴀᴛɪɴɢ ʙᴀᴄᴋᴜᴘ...")
         
