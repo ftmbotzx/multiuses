@@ -2,21 +2,12 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from database.db import Database
 from info import Config
+from .admin_utils import admin_only
 import logging
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
 db = Database()
-
-def admin_only(func):
-    """Decorator to restrict commands to admins only"""
-    async def wrapper(client: Client, message: Message):
-        user_id = message.from_user.id
-        if user_id not in Config.ADMINS:
-            await message.reply_text("❌ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ.")
-            return
-        return await func(client, message)
-    return wrapper
 
 @Client.on_message(filters.command("status") & filters.private)
 @admin_only
