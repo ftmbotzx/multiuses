@@ -7,6 +7,11 @@ import time
 _admin_cache = {}
 _cache_ttl = 300  # 5 minutes cache
 
+def clear_admin_cache():
+    """Clear the admin cache"""
+    global _admin_cache
+    _admin_cache = {}
+
 def is_admin(user_id: int) -> bool:
     """Optimized admin check with caching to reduce VPS load"""
     current_time = time.time()

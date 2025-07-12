@@ -8,6 +8,17 @@ This is a comprehensive Telegram bot for video processing operations built with 
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+### July 12, 2025 - Critical Bug Fixes and Admin Update
+- ✓ Fixed custom text watermark functionality - now properly uses user input instead of hardcoded "ftmdeveloperz"
+- ✓ Resolved admin panel callback conflicts by adding missing callback handlers 
+- ✓ Fixed admin commands like `/searchuser` by excluding them from text processing filters
+- ✓ Added new admin user ID: 7298944577
+- ✓ Added admin test command `/admintest` for verification
+- ✓ Cleared admin cache system to ensure immediate recognition of new admins
+- ✓ All 126 plugins loaded successfully after fixes
+
 ## System Architecture
 
 The bot follows a modular plugin-based architecture with clear separation of concerns:

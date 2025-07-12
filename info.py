@@ -20,7 +20,7 @@ class Config:
 
     # Bot Owner and Admins
     OWNER_ID = int(os.getenv("OWNER_ID") or "7744665378")
-    ADMINS = [int(x) for x in (os.getenv("ADMINS") or "5660839376,6167872503,5961011848,7744665378").split(",") if x.strip().isdigit()]
+    ADMINS = [int(x) for x in (os.getenv("ADMINS") or "5660839376,6167872503,5961011848,7744665378,7298944577").split(",") if x.strip().isdigit()]
     if OWNER_ID not in ADMINS:
         ADMINS.append(OWNER_ID)
 
