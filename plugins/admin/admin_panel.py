@@ -18,6 +18,16 @@ def admin_only(func):
         return await func(client, message)
     return wrapper
 
+def admin_callback_only(func):
+    """Decorator to restrict callback queries to admins only"""
+    async def wrapper(client: Client, callback_query: CallbackQuery):
+        user_id = callback_query.from_user.id
+        if user_id not in Config.ADMINS:
+            await callback_query.answer("❌ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ.", show_alert=True)
+            return
+        return await func(client, callback_query)
+    return wrapper
+
 @Client.on_message(filters.command("admin") & filters.private)
 @admin_only
 async def admin_panel(client: Client, message: Message):
@@ -72,6 +82,17 @@ async def admin_panel(client: Client, message: Message):
         await message.reply_text("❌ ᴇʀʀᴏʀ ʟᴏᴀᴅɪɴɢ ᴀᴅᴍɪɴ ᴘᴀɴᴇʟ.")
 
 @Client.on_callback_query(filters.regex("^admin_main$|^admin_refresh$"))
+@admin_callback_only
 async def admin_panel_refresh(client: Client, callback_query: CallbackQuery):
     """Refresh admin panel"""
-    await admin_panel(client, callback_query.message)
+    # Create a mock message object for admin_panel function
+    class MockMessage:
+        def __init__(self, callback_query):
+            self.from_user = callback_query.from_user
+            self.chat = callback_query.message.chat
+        
+        async def reply_text(self, text, reply_markup=None):
+            return await callback_query.edit_message_text(text, reply_markup=reply_markup)
+    
+    mock_message = MockMessage(callback_query)
+    await admin_panel(client, mock_message)
