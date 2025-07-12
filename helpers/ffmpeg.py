@@ -156,6 +156,10 @@ class FFmpegProcessor:
         elif operation.startswith("watermark_"):
             if "timestamp" in operation:
                 return "watermark", {"type": "timestamp"}
+            elif "text:" in operation:
+                # Extract custom text from operation like "watermark_text:Hello World"
+                text_part = operation.split(":", 1)[1] if ":" in operation else ""
+                return "watermark", {"type": "text", "text": text_part}
             elif "text" in operation:
                 return "watermark", {"type": "text"}
             else:
@@ -490,11 +494,12 @@ class FFmpegProcessor:
             watermark_processor = WatermarkProcessor()
             
             if not params:
-                # Default text watermark
+                # Default text watermark - use configurable default
+                default_text = getattr(Config, 'DEFAULT_WATERMARK_TEXT', 'ꜰᴛᴍ ᴅᴇᴠᴇʟᴏᴘᴇʀᴢ')
                 return await watermark_processor.add_text_watermark(
                     input_path, 
                     output_path, 
-                    "ꜰᴛᴍ ᴅᴇᴠᴇʟᴏᴘᴇʀᴢ",
+                    default_text,
                     progress_tracker
                 )
             
@@ -519,7 +524,11 @@ class FFmpegProcessor:
                     logger.error(f"Image watermark path not found: {image_path}")
                     return None
             elif watermark_type == "text" or watermark_type == "custom_text":
-                text = params.get("text", "ꜰᴛᴍ ᴅᴇᴠᴇʟᴏᴘᴇʀᴢ")
+                # For custom text, always use the provided text, never fallback to default
+                text = params.get("text")
+                if not text:
+                    # Only use default if no text provided at all
+                    text = getattr(Config, 'DEFAULT_WATERMARK_TEXT', 'ꜰᴛᴍ ᴅᴇᴠᴇʟᴏᴘᴇʀᴢ')
                 return await watermark_processor.add_text_watermark(
                     input_path, 
                     output_path, 

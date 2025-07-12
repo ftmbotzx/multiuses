@@ -10,13 +10,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-• **Complete Video Handler Modularization (July 11, 2025)**: Successfully separated the massive 2034-line video_handler.py file into 15+ focused modules. Each callback function now has its own dedicated file with unique names. Created specialized handlers for video upload, option selection, process confirmation, custom callbacks, file uploads, navigation, watermark processing, text input, merge operations, and screenshot handling. Removed the original video_handler.py file completely, reducing plugin count from 69 to 55 with zero redundancy.
+• **Custom Watermark Text Issue Fixed (July 12, 2025)**: Resolved critical bug where custom watermark text was being overridden by hardcoded "FTM developers" text. Fixed in helpers/ffmpeg.py by updating _parse_operation method to properly extract and pass custom text from watermark_text: operations. Added configurable default watermark text support and improved text parameter handling throughout the watermark processing pipeline.
+
+• **Comprehensive Admin Configuration Added (July 12, 2025)**: Created complete admin panel functionality allowing configuration of any bot setting from the interface. Added admin_config_callbacks.py and admin_comprehensive_config.py with settings for credits, limits, messages, watermarks, channels, and system management. Includes direct fix options for the watermark issue and bot restart capability.
 
 • **Admin Panel Performance Optimization (July 12, 2025)**: Fixed admin panel authorization issues and optimized VPS performance by implementing cached admin checks. Added centralized admin utility module with 5-minute caching to reduce repeated authorization overhead. Fixed missing callback handlers and ensured all admin functions work properly with consistent authorization handling. This reduces VPS load significantly while maintaining security.
 
-• **Duplicate Plugin Cleanup (July 12, 2025)**: Removed duplicate standalone files (credits.py, premium.py, referral.py) that existed alongside their organized subdirectory versions. Final clean architecture with 51 plugin files and no redundancy.
-
-• **Complete Code Modularization (July 11, 2025)**: Achieved comprehensive separation of all callback functions into individual files within organized subdirectories. Completed separation of admin panel (17 functions), credits system (3 functions), premium management (4 functions), and referral system (2 functions) into dedicated files. This provides maximum maintainability and zero callback redundancy.
+• **Complete Video Handler Modularization (July 11, 2025)**: Successfully separated the massive 2034-line video_handler.py file into 15+ focused modules. Each callback function now has its own dedicated file with unique names. Created specialized handlers for video upload, option selection, process confirmation, custom callbacks, file uploads, navigation, watermark processing, text input, merge operations, and screenshot handling. Removed the original video_handler.py file completely, reducing plugin count from 69 to 55 with zero redundancy.
 
 • **Database Connection Optimization (July 11, 2025)**: Removed redundant database connection checks from all command handlers. The database is now connected once at bot startup, eliminating the need for individual connection verification before each database operation. This improves performance and reduces code complexity.
 
