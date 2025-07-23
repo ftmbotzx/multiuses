@@ -2,8 +2,7 @@
 
 [![⭐ Stars](https://img.shields.io/github/stars/ftmbotzx/ftm-editron?style=social)](https://github.com/ftmbotzx/ftm-editron)
 [![🍴 Forks](https://img.shields.io/github/forks/ftmbotzx/ftm-editron?style=social)](https://github.com/ftmbotzx/ftm-editron/fork)
-[![👤 Owner](https://img.shields.io/badge/By-Fᴛᴍ Dᴇᴠᴇʟᴏᴘᴇʀᴢ-blueviolet)](https://github.com/ftmbotzx)
-
+[![👤 Owner](https://img.shields.io/badge/By-Fᴛᴍ%20Dᴇᴠᴇʟᴏᴘᴇʀᴢ-blueviolet)](https://github.com/ftmbotzx)
 ---
 
 > 🧠 After relentless hard work, long nights, and continuous innovation...  
