@@ -6,9 +6,10 @@
 
 ---
 
-📢 **After relentless hard work, long nights, and continuous innovation... Fᴛᴍ Dᴇᴠᴇʟᴏᴘᴇʀᴢ proudly brings you:**
+> 🧠 After relentless hard work, long nights, and continuous innovation...  
+> **Fᴛᴍ Dᴇᴠᴇʟᴏᴘᴇʀᴢ** proudly brings you:
 
-> ### 🎉 Fᴛᴍ Eᴅɪᴛʀᴏɴ — Your Ultimate Telegram Media Processing Bot!
+### 🎉 Fᴛᴍ Eᴅɪᴛʀᴏɴ — Your Ultimate Telegram Media Processing Bot!
 
 ---
 
@@ -17,12 +18,12 @@
 ✅ Merge multiple videos/files  
 ✅ Compress files with quality selection  
 ✅ Rotate videos by any angle  
-✅ Add watermark (🖼️ image or 📝 text)  
-✅ Weather overlay on videos  
+✅ Add watermark 🖼️ (image or text)  
+✅ Weather overlay on videos ☁️  
 ✅ Generate sample previews before upload  
-✅ Reverse video for creative edits 🔄  
+✅ Reverse video for creative edits 🔁  
 ✅ Extract audio from video in HQ 🎧  
-✅ Add background/sample audio to video  
+✅ Add background/sample audio to video 🔊  
 ✅ Add subtitles or extract them (.srt supported)  
 ✅ Multi-format media support (.mp4, .mkv, .mp3, etc.)  
 ✅ Lightning-fast, user-friendly, zero lag ⚡
@@ -32,7 +33,8 @@
 ## 🧪 Trial Launch
 
 📆 **Trial Day:** `1st August 2025`  
-🎯 We’re going live for the first time to test everything with you all! Be part of this historic day!
+📢 We’re going live for the first time to test everything with you all!  
+✨ Be part of this historic day!
 
 ---
 
@@ -40,55 +42,34 @@
 
 🎉 On the occasion of **Independence Day – 15th August**, we’re giving away:
 
-> **🚀 Premium Subscriptions for FREE** to our lucky users!
+> 🚀 **Premium Subscriptions for FREE** to lucky users!
 
-✅ Join the trial  
-✅ Use the bot  
-✅ Get a chance to win exclusive access! 🎊
-
----
-
-## 🔮 What’s Next?
-
-🌟 Coming soon from Fᴛᴍ Dᴇᴠᴇʟᴏᴘᴇʀᴢ:
-
-🎵 **Fᴛᴍ Mᴜsɪᴄᴍᴀsᴛ** – a full-featured Telegram bot for audio editing, trimming, remixing, and effects.
-
-🎞️ **Fᴛᴍ MᴇᴅɪᴀFᴀʙ** – ultimate all-in-one media processing bot (audio, video, subtitle, filter-based magic & more)
-
-🤖 AI-based Smart Automation tools  
-☁️ Cloud Editing Mode  
-🔗 Google Drive & Dropbox Integration  
-🎛️ Batch Mode Processing  
+🔹 Join the trial  
+🔹 Use the bot  
+🔹 Get a chance to win exclusive access! 🎊
 
 ---
 
-## 💻 Hosted by:
+## 🔮 What's Next?
 
-[![Render](https://img.shields.io/badge/Deploy-Render-blue?logo=render)](https://render.com)  
-🔐 Secure | 🌐 Global Access | ☁️ Always Online
+🚧 **Coming Soon from Fᴛᴍ Dᴇᴠᴇʟᴏᴘᴇʀᴢ**:
 
----
-
-## 🧠 Powered By:
-
-- Python 🐍
-- Pyrogram 📬
-- FFmpeg 🎬
-- MongoDB 🍃
-- ❤️ Fᴛᴍ Dᴇᴠᴇʟᴏᴘᴇʀᴢ
+🎵 Fᴛᴍ Mᴜsɪᴄᴍᴀsᴛ – Telegram bot for audio editing, trimming, remixing  
+🎞️ Fᴛᴍ MᴇᴅɪᴀFᴀʙ – Full suite of audio-video-subtitle batch processing  
+🤖 AI-based automation tools  
+☁️ Cloud integrations  
+🎛️ Batch-mode editor
 
 ---
 
-## 👥 Connect With Us:
+## 📡 Stay Connected
 
+🔗 GitHub: [github.com/ftmbotzx](https://github.com/ftmbotzx)  
 📢 Telegram Channel: [@ftmdeveloperz](https://t.me/ftmdeveloperz)  
-💬 Support Chat: Coming Soon  
-🧑‍💻 GitHub: [ftmbotzx](https://github.com/ftmbotzx)
+🛠️ Support: Coming Soon  
 
 ---
 
-> 🎇 Let the countdown begin. Be ready for the future of media editing bots.  
-> **#FᴛᴍEᴅɪᴛʀᴏɴ #LaunchedByHearts #BuiltByDedication**
-
----
+> 🔥 **Get ready to edit like never before!**  
+> 💬 Powered by passion, built with Python, deployed for the future.  
+> #FTMEditron #MediaBot #LaunchDay #Giveaway
